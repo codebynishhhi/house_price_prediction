@@ -57,24 +57,11 @@ Results will be saved in:
 - `models/` - Trained model
 - `logs/` - Training logs
 
-## Project Phases
-
-- [ ] Phase 0: Setup & Dataset Selection
-- [ ] Phase 1: Problem Understanding
-- [ ] Phase 2: EDA & Data Exploration
-- [ ] Phase 3: Preprocessing
-- [ ] Phase 4: Feature Engineering
-- [ ] Phase 5: Model Training
-- [ ] Phase 6: Error Analysis
-- [ ] Phase 7: Final Model & Predictions
-- [ ] Phase 8: Documentation
-
 ## Results
 (Will be updated as project progresses)
 
 ## Author
-Your Name
+Nishi Gupta
 
 ## Contact
-Your LinkedIn / GitHub
-EOF
+https://www.linkedin.com/in/nishi-gupta-b46b66179/
