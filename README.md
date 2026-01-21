@@ -58,7 +58,61 @@ Results will be saved in:
 - `logs/` - Training logs
 
 ## Results
-(Will be updated as project progresses)
+# Summary of the Project
+In this project, we performed an end-to-end machine learning workflow to predict house prices using the Ames Housing Dataset. 
+The main steps included:
+1. Data Understanding & Preprocessing :
+
+Performed extensive EDA to understand missing values, skewness, outliers, and feature distributions.
+Dropped features with excessive missing values (>60%) and non-informative identifiers.
+
+Applied:
+Median / zero imputation for numerical features
+Mode imputation for categorical features
+Handled skewness using log transformation on the target variable.
+Applied outlier capping (IQR method) for heavily skewed numerical features to reduce the influence of extreme values.
+Encoded categorical variables using appropriate encoding strategies.
+
+2. Modeling Approach
+
+The following regression models were trained and evaluated:
+Linear Regression (baseline)
+Ridge Regression
+Lasso Regression
+Random Forest Regression
+
+Each model was evaluated using:
+Train/Test split
+R² score
+RMSE
+Residual analysis
+Cross-validation
+
+3. Model Comparison
+
+| Model             | R² (Train) | R² (Test) | RMSE (Train) | RMSE (Test) |
+| ----------------- | ---------- | --------- | ------------ | ----------- |
+| Linear Regression | 0.930      | 0.931     | 0.106        | 0.113       |
+| Ridge Regression  | 0.926      | **0.932** | 0.109        | **0.112**   |
+| Lasso Regression  | 0.813      | 0.870     | 0.173        | 0.155       |
+| Random Forest     | **0.982**  | 0.922     | **0.054**    | 0.120       |
+
+4. Model Selection
+
+Although Random Forest achieved the highest training performance, Ridge Regression was selected as the final model due to:
+- Strong generalization (highest test R²)
+- Low variance between train and test scores
+- Better interpretability
+- Lower risk of overfitting
+- Simpler and more stable behavior on tabular data
+
+5. Model Diagnostics:
+
+Residuals are centered around zero with no clear pattern → model assumptions hold
+Actual vs Predicted plot shows strong linear alignment
+Errors are proportionally small in log-space
+
+Model Persistence : The final Ridge Regression model was saved using joblib for future inference and deployment.
 
 ## Author
 Nishi Gupta
