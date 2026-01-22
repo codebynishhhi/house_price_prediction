@@ -8,7 +8,7 @@ This project builds a machine learning model to predict house prices using the A
 - **Rows:** 1,460 houses
 - **Features:** 79 features (numerical & categorical)
 - **Target:** SalePrice (in dollars)
-
+ 
 ## Project Structure
 ```
 house_price_prediction/
