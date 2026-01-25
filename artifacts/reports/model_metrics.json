@@ -1,0 +1,7 @@
+{
+    "best_model": "Lasso",
+    "test_r2_score": 0.8270907093512966,
+    "training_data_size": 1825,
+    "test_data_size": 449,
+    "number_of_features": 40
+}

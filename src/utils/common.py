@@ -114,3 +114,18 @@ def evaluate_model(X_train, y_train, X_test, y_test, models:dict) -> dict:
     except Exception as e:
         logger.error("Error occurred during model evaluation")
         raise CustomException(e, sys)
+
+def create_directories(directories: list) -> None:
+    """
+    Create directories if they don't exist.
+    
+    Args:
+        directories (list): List of directory paths to create.
+    """
+    try:
+        for directory in directories:
+            os.makedirs(directory, exist_ok=True)
+        logger.info(f"Directories created: {directories}")
+    except Exception as e:
+        logger.error(f"Error creating directories: {e}")
+        raise CustomException(e, sys)

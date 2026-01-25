@@ -6,6 +6,7 @@ from src.scaling import DataScaling
 from src.outlier_handling import OutlierHandler
 from src.model_training import ModelTrainer
 from src.model_selection import ModelSelector
+from src.model_evaluation import ModelEvaluation
 import pandas as pd
 import numpy as np
 
@@ -146,6 +147,32 @@ if __name__ == "__main__":
     print(f"  Model Object: {best_model}")
     
     print("\n✓ Model Selection completed successfully!")
+    
+    # Test Model Evaluation
+    print("\n" + "="*50)
+    print("Testing Model Evaluation...")
+    print("="*50)
+    
+    model_evaluator = ModelEvaluation()
+    
+    # Save the best model
+    model_path = model_evaluator.save_model(best_model, best_model_name)
+    print(f"\n✓ Best model saved at: {model_path}")
+    
+    # Create metrics dictionary
+    metrics_dict = {
+        "best_model": best_model_name,
+        "test_r2_score": float(best_score),
+        "training_data_size": X_train_model.shape[0],
+        "test_data_size": X_test_model.shape[0],
+        "number_of_features": X_train_model.shape[1],
+    }
+    
+    # Save metrics
+    metrics_path = model_evaluator.save_metrics(metrics_dict)
+    print(f"✓ Model metrics saved at: {metrics_path}")
+    
+    print("\n✓ Model Evaluation completed successfully!")
     
     print("\n" + "="*50)
     print("\n✓ All tests completed successfully!")
