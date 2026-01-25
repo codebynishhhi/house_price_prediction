@@ -4,7 +4,9 @@ from src.feature_engineering import FeatureEngineering
 from src.encoding import DataEncoding
 from src.scaling import DataScaling
 from src.outlier_handling import OutlierHandler
+from src.model_training import ModelTrainer
 import pandas as pd
+import numpy as np
 
 if __name__ == "__main__":
     # Test Data Ingestion
@@ -89,6 +91,46 @@ if __name__ == "__main__":
     print(f"Train data after outlier handling shape: {train_df_cleaned.shape}")
     print(f"Test data after outlier handling shape: {test_df_cleaned.shape}")
     print("Outlier Handling completed successfully!")
+    
+    # Test Model Training
+    print("\n" + "="*50)
+    print("Testing Model Training...")
+    print("="*50)
+    
+    # Prepare numerical features for model training
+    numerical_cols = train_df_cleaned.select_dtypes(include=['int64', 'float64']).columns.tolist()
+    
+    # Remove target columns if present
+    if 'SalePrice' in numerical_cols:
+        numerical_cols.remove('SalePrice')
+    if 'SalePrice_log' in numerical_cols:
+        numerical_cols.remove('SalePrice_log')
+    
+    # Create a copy and drop NaN values
+    train_df_model = train_df_cleaned[[*numerical_cols, 'SalePrice']].dropna()
+    test_df_model = test_df_cleaned[[*numerical_cols, 'SalePrice']].dropna()
+    
+    # Extract features and target
+    X_train_model = train_df_model[numerical_cols].values
+    y_train_model = train_df_model['SalePrice'].values
+    
+    X_test_model = test_df_model[numerical_cols].values
+    y_test_model = test_df_model['SalePrice'].values
+    
+    print(f"Training data shape: {X_train_model.shape}")
+    print(f"Test data shape: {X_test_model.shape}")
+    
+    # Train models
+    model_trainer = ModelTrainer()
+    results = model_trainer.train_and_evaluate(X_train_model, y_train_model, X_test_model, y_test_model)
+    
+    # Display results
+    print("\nModel Performance Comparison:")
+    print("-" * 70)
+    for model_name, metrics in results.items():
+        print(f"\n{model_name:20s} | Train R²: {metrics['train_r2']:.4f} | Test R²: {metrics['test_r2']:.4f} | RMSE: {metrics['test_rmse']:.2f}")
+    
+    print("\n✓ Model Training completed successfully!")
     
     print("\n" + "="*50)
     print("\n✓ All tests completed successfully!")
