@@ -2,6 +2,7 @@ from src.data_ingestion import DataIngestion
 from src.data_preprocessing import DataPreprocessing
 from src.feature_engineering import FeatureEngineering
 from src.encoding import DataEncoding
+from src.scaling import DataScaling
 import pandas as pd
 
 if __name__ == "__main__":
@@ -58,6 +59,16 @@ if __name__ == "__main__":
     transformer = encoding.get_transformer(train_df_fe)
     
     print("Data Encoding transformer created successfully!")
+    
+    # Test Data Scaling
+    print("\n" + "="*50)
+    print("Testing Data Scaling...")
+    print("="*50)
+    
+    scaling = DataScaling()
+    scaling_transformer = scaling.get_scaled_features(train_df_fe)
+    
+    print("Data Scaling transformer created successfully!")
     print("="*50)
     print("\n✓ All tests completed successfully!")
     print("="*50)
