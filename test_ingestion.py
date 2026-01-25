@@ -5,6 +5,7 @@ from src.encoding import DataEncoding
 from src.scaling import DataScaling
 from src.outlier_handling import OutlierHandler
 from src.model_training import ModelTrainer
+from src.model_selection import ModelSelector
 import pandas as pd
 import numpy as np
 
@@ -131,6 +132,20 @@ if __name__ == "__main__":
         print(f"\n{model_name:20s} | Train R²: {metrics['train_r2']:.4f} | Test R²: {metrics['test_r2']:.4f} | RMSE: {metrics['test_rmse']:.2f}")
     
     print("\n✓ Model Training completed successfully!")
+    
+    # Test Model Selection
+    print("\n" + "="*50)
+    print("Testing Model Selection...")
+    print("="*50)
+    
+    model_selector = ModelSelector()
+    best_model_name, best_model, best_score = model_selector.select_best_model(results)
+    
+    print(f"\n✓ Best Model Selected: {best_model_name}")
+    print(f"  Test R² Score: {best_score:.4f}")
+    print(f"  Model Object: {best_model}")
+    
+    print("\n✓ Model Selection completed successfully!")
     
     print("\n" + "="*50)
     print("\n✓ All tests completed successfully!")
