@@ -3,6 +3,7 @@ from src.data_preprocessing import DataPreprocessing
 from src.feature_engineering import FeatureEngineering
 from src.encoding import DataEncoding
 from src.scaling import DataScaling
+from src.outlier_handling import OutlierHandler
 import pandas as pd
 
 if __name__ == "__main__":
@@ -69,6 +70,26 @@ if __name__ == "__main__":
     scaling_transformer = scaling.get_scaled_features(train_df_fe)
     
     print("Data Scaling transformer created successfully!")
+    
+    # Test Outlier Handling
+    print("\n" + "="*50)
+    print("Testing Outlier Handling...")
     print("="*50)
+    
+    # Get numerical columns for outlier handling
+    numerical_cols = train_df_fe.select_dtypes(include=['int64', 'float64']).columns.tolist()
+    numerical_cols = [col for col in numerical_cols if col not in ['SalePrice', 'SalePrice_log']]
+    
+    outlier_handler = OutlierHandler()
+    outlier_handler.calculate_iqr_bounds(train_df_fe, numerical_cols)
+    
+    train_df_cleaned = outlier_handler.transform_dataframe_using_bounds(train_df_fe)
+    test_df_cleaned = outlier_handler.transform_dataframe_using_bounds(test_df_fe)
+    
+    print(f"Train data after outlier handling shape: {train_df_cleaned.shape}")
+    print(f"Test data after outlier handling shape: {test_df_cleaned.shape}")
+    print("Outlier Handling completed successfully!")
+    
+    print("\n" + "="*50)
     print("\n✓ All tests completed successfully!")
     print("="*50)
