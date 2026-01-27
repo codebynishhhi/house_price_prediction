@@ -19,7 +19,7 @@ def health_check():
 
 @app.post("/predict")
 def predict_price(data: HouseInput):
-    prediction = prediction_pipeline.predict_results(data)
+    prediction = prediction_pipeline.predict_results(data.dict(by_alias=True))
     return {
         "predicted_price": prediction
     }

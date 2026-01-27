@@ -6,13 +6,16 @@ import joblib
 from src.utils.logger import get_logger
 from src.utils.exception import CustomException
 from src.utils.config import PredictionConfig
+from pipeline.input_adapter import InputAdapter
+
 
 logger = get_logger(__name__)
 
 class PredictionPipeline:
     def __init__(self):
         self.config = PredictionConfig()
-        self.pipeline = None
+        self.pipeline = joblib.load("artifacts/model/full_pipeline.pkl")
+        self.adapter = InputAdapter("artifacts/input_defaults.pkl")
 
     def load_pipeline(self):
         try:
@@ -23,20 +26,34 @@ class PredictionPipeline:
         except Exception as e:
             raise CustomException(e, sys)
         
-    def predict_results(self, input_data:dict):
+    # def predict_results(self, input_data:dict):
+    #     try:
+    #         logger.info("Starting prediction")
+
+    #         # input data can be both dict and dataframe
+    #         if isinstance(input_data, pd.DataFrame):
+    #             df = input_data.copy()
+    #         else:
+    #             df = pd.DataFrame([input_data])
+
+    #         prediction = self.pipeline.predict(df)
+
+    #         logger.info("Prediction completed successfully!")
+
+    #         return float(prediction[0])
+    #     except Exception as e:
+    #         raise CustomException(e, sys)
+    def predict_results(self, input_data: dict):
         try:
             logger.info("Starting prediction")
 
-            # input data can be both dict and dataframe
-            if isinstance(input_data, pd.DataFrame):
-                df = input_data.copy()
-            else:
-                df = pd.DataFrame([input_data])
+            # ALWAYS go through the adapter
+            df = self.adapter.adapt(input_data)
 
             prediction = self.pipeline.predict(df)
 
             logger.info("Prediction completed successfully!")
-
             return float(prediction[0])
+
         except Exception as e:
             raise CustomException(e, sys)
