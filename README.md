@@ -1,5 +1,7 @@
 # House Price Prediction Project 
 
+<!--  uvicorn app.main:app --reload -->
+
 ## Project Overview
 This project builds a machine learning model to predict house prices using the Ames Housing dataset. The goal is to understand the factors that influence house prices and build a production-ready predictive model.
 
