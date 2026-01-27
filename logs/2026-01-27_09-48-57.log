@@ -1,0 +1,47 @@
+[2026-01-27 09:48:57,213] INFO - Data Ingestion method starts
+[2026-01-27 09:48:57,249] INFO - Raw data saved
+[2026-01-27 09:48:57,277] INFO - Train and test data saved
+[2026-01-27 09:48:57,277] INFO - Data Ingestion method completed
+[2026-01-27 09:48:57,277] INFO - Data Preprocessing method starts
+[2026-01-27 09:48:57,277] INFO - Reading train and test data
+[2026-01-27 09:48:57,287] INFO - Creating preprocessor object
+[2026-01-27 09:48:57,287] INFO - Identifying numerical and categorical columns
+[2026-01-27 09:48:57,288] INFO - Numerical columns:['Order', 'PID', 'MS SubClass', 'Lot Frontage', 'Lot Area', 'Overall Qual', 'Overall Cond', 'Year Built', 'Year Remod/Add', 'Mas Vnr Area', 'BsmtFin SF 1', 'BsmtFin SF 2', 'Bsmt Unf SF', 'Total Bsmt SF', '1st Flr SF', '2nd Flr SF', 'Low Qual Fin SF', 'Gr Liv Area', 'Bsmt Full Bath', 'Bsmt Half Bath', 'Full Bath', 'Half Bath', 'Bedroom AbvGr', 'Kitchen AbvGr', 'TotRms AbvGrd', 'Fireplaces', 'Garage Yr Blt', 'Garage Cars', 'Garage Area', 'Wood Deck SF', 'Open Porch SF', 'Enclosed Porch', '3Ssn Porch', 'Screen Porch', 'Pool Area', 'Misc Val', 'Mo Sold', 'Yr Sold']
+[2026-01-27 09:48:57,288] INFO - Categorical columns : ['MS Zoning', 'Street', 'Alley', 'Lot Shape', 'Land Contour', 'Utilities', 'Lot Config', 'Land Slope', 'Neighborhood', 'Condition 1', 'Condition 2', 'Bldg Type', 'House Style', 'Roof Style', 'Roof Matl', 'Exterior 1st', 'Exterior 2nd', 'Mas Vnr Type', 'Exter Qual', 'Exter Cond', 'Foundation', 'Bsmt Qual', 'Bsmt Cond', 'Bsmt Exposure', 'BsmtFin Type 1', 'BsmtFin Type 2', 'Heating', 'Heating QC', 'Central Air', 'Electrical', 'Kitchen Qual', 'Functional', 'Fireplace Qu', 'Garage Type', 'Garage Finish', 'Garage Qual', 'Garage Cond', 'Paved Drive', 'Pool QC', 'Fence', 'Misc Feature', 'Sale Type', 'Sale Condition']
+[2026-01-27 09:48:57,288] INFO - Fitting and transforming train data
+[2026-01-27 09:48:57,299] INFO - Transforming test data
+[2026-01-27 09:48:57,302] INFO - Model object saved successfully at /Users/nishiigupta/Documents/house_price_prediction/src/artifacts/preprocessor.pkl
+[2026-01-27 09:48:57,302] INFO - Data Preprocessing method completed
+[2026-01-27 09:48:57,311] INFO - Starting feature engineering
+[2026-01-27 09:48:57,313] INFO - Feature engineering completed
+[2026-01-27 09:48:57,313] INFO - Starting feature engineering
+[2026-01-27 09:48:57,314] INFO - Feature engineering completed
+[2026-01-27 09:48:57,314] INFO - Creating encoding transformer
+[2026-01-27 09:48:57,315] INFO - Encoding transformer created successfully
+[2026-01-27 09:48:57,315] INFO - Creating scaling transformer for numerical features
+[2026-01-27 09:48:57,315] INFO - Scaling transformer created successfully
+[2026-01-27 09:48:57,315] INFO - Fitting outlier bounds using IQR
+[2026-01-27 09:48:57,323] INFO - Outlier bounds fitted successfully
+[2026-01-27 09:48:57,323] INFO - Applying outlier capping
+[2026-01-27 09:48:57,333] INFO - Outlier capping applied successfully
+[2026-01-27 09:48:57,333] INFO - Applying outlier capping
+[2026-01-27 09:48:57,340] INFO - Outlier capping applied successfully
+[2026-01-27 09:48:57,345] INFO - Starting model training
+[2026-01-27 09:48:57,345] INFO - Training model: LinearRegression
+[2026-01-27 09:48:57,354] INFO - LinearRegression | Train R2: 0.8566, Test R2: 0.8271
+[2026-01-27 09:48:57,354] INFO - Training model: Ridge
+[2026-01-27 09:48:57,359] INFO - Ridge | Train R2: 0.8566, Test R2: 0.8271
+[2026-01-27 09:48:57,359] INFO - Training model: Lasso
+[2026-01-27 09:48:57,368] INFO - Lasso | Train R2: 0.8566, Test R2: 0.8271
+[2026-01-27 09:48:57,368] INFO - Training model: RandomForest
+[2026-01-27 09:48:59,001] INFO - RandomForest | Train R2: 0.9847, Test R2: 0.9141
+[2026-01-27 09:48:59,001] INFO - Model training completed
+[2026-01-27 09:48:59,001] INFO - Selecting best model based on test performance
+[2026-01-27 09:48:59,001] INFO - LinearRegression | Train R2: 0.8566, Test R2: 0.8271, Gap: 0.0295
+[2026-01-27 09:48:59,001] INFO - Ridge | Train R2: 0.8566, Test R2: 0.8271, Gap: 0.0295
+[2026-01-27 09:48:59,001] INFO - Lasso | Train R2: 0.8566, Test R2: 0.8271, Gap: 0.0295
+[2026-01-27 09:48:59,001] INFO - RandomForest | Train R2: 0.9847, Test R2: 0.9141, Gap: 0.0706
+[2026-01-27 09:48:59,001] INFO - Best model selected: Lasso with Test R2 = 0.8271
+[2026-01-27 09:48:59,002] INFO - Directories created: ['artifacts/model', 'artifacts/reports']
+[2026-01-27 09:48:59,003] INFO - Saved best model [Lasso] at artifacts/model/best_model.pkl
+[2026-01-27 09:48:59,003] INFO - Saved model metrics at artifacts/reports/model_metrics.json

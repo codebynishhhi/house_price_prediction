@@ -96,13 +96,13 @@ class DataPreprocessing:
             test_arr = np.c_[X_test_processed, y_test.values]
 
             logger.info("Data Preprocessing method completed")
-            return train_arr, test_arr
+            return X_train_processed, X_test_processed, y_train,y_test
         
         except Exception as e:
             logger.error("Error occurred in data preprocessing")
             raise CustomException(e, sys) from e
 
 
-if __name__ == "__main__":
-    logger.info("Data Preprocessing script started")
-    logger.info("Script execution completed")
+# if __name__ == "__main__":
+#     logger.info("Data Preprocessing script started")
+#     logger.info("Script execution completed")

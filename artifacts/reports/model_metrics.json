@@ -1,7 +1,4 @@
 {
-    "best_model": "Lasso",
-    "test_r2_score": 0.8270907093512966,
-    "training_data_size": 1825,
-    "test_data_size": 449,
-    "number_of_features": 40
+    "best_test_r2": 0.9264593169637685,
+    "best_model": "RandomForest"
 }

@@ -17,7 +17,7 @@ class ModelTrainer:
         self.models = {
             "LinearRegression": LinearRegression(),
             "Ridge": Ridge(alpha=1.0),
-            "Lasso": Lasso(alpha=0.001),
+            "Lasso": Lasso(alpha=0.05, max_iter=10000, random_state=42),
             "RandomForest": RandomForestRegressor(
                 n_estimators=200,
                 random_state=42

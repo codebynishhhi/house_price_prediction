@@ -1,4 +1,5 @@
 import sys
+import pandas as pd
 
 from src.utils.logger import get_logger
 from src.utils.exception import CustomException
@@ -21,43 +22,74 @@ class TrainingPipeline:
         try:
             logger.info("Training pipeline started")
 
-            # Phase 3: Data Ingestion
+            # Phase 2: Data Ingestion
             ingestion = DataIngestion()
-            train_path, test_path = ingestion.initiate_data_ingestion()
+            train_path, test_path = ingestion.initate_data_ingestion()
 
-            # Phase 4: Data Preprocessing
+            train_df = pd.read_csv(train_path)
+            test_df = pd.read_csv(test_path)
+
+            target_col = "SalePrice"
+
+            y_train = train_df[target_col]
+            y_test = test_df[target_col]
+
+            X_train = train_df.drop(columns=[target_col])
+            X_test = test_df.drop(columns=[target_col])
+
+            # Phase 3: Feature Engineering (DATAFRAME ONLY)
+            fe = FeatureEngineering()
+            X_train = fe.start_feature_engineering(X_train)
+            X_test = fe.start_feature_engineering(X_test)
+
+            # Phase 4: Outlier Handling
+            outlier = OutlierHandler()
+
+            # identigy numeric columns and exclude the target
+            numeric_cols = X_train.select_dtypes(include=["int64", "float64"]).columns.tolist()
+            
+            # learn outlier bounds(lower & upper) from training data
+            outlier.calculate_iqr_bounds(X_train, numeric_cols)
+
+            X_train = outlier.transform_dataframe_using_bounds(X_train)
+            X_test = outlier.transform_dataframe_using_bounds(X_test)
+
+            # Phase 5: Encoding (NEEDS COLUMN NAMES)
+            encoder = DataEncoding()
+            encoding_transformer = encoder.get_transformer(X_train)
+
+            X_train = encoding_transformer.fit_transform(X_train)
+            X_test = encoding_transformer.transform(X_test)
+
+            # Phase 6: Imputation
             preprocessing = DataPreprocessing()
-            X_train, X_test, y_train, y_test = preprocessing.process(
-                train_path, test_path
+            preprocessor = preprocessing.get_preprocessor_object(
+                pd.DataFrame(X_train)
             )
 
-            # Phase 5: Feature Engineering
-            fe = FeatureEngineering()
-            X_train, X_test = fe.transform(X_train, X_test)
-
-            # Phase 6: Encoding
-            encoder = DataEncoding()
-            X_train, X_test = encoder.transform(X_train, X_test)
+            X_train = preprocessor.fit_transform(X_train)
+            X_test = preprocessor.transform(X_test)
 
             # Phase 7: Scaling
             scaler = DataScaling()
-            X_train, X_test = scaler.transform(X_train, X_test)
+            scaler_transformer = scaler.get_scaled_features(pd.DataFrame(X_train))
 
-            # Phase 8: Outlier Handling
-            outlier = OutlierHandler()
-            X_train, X_test = outlier.transform(X_train, X_test)
+            X_train = scaler_transformer.fit_transform(X_train)
+            X_test = scaler_transformer.transform(X_test)
 
             # Phase 9: Model Training
             trainer = ModelTrainer()
-            trained_models = trainer.train(X_train, y_train)
+            trained_models = trainer.train_and_evaluate(
+                X_train, y_train, X_test, y_test
+            )
 
             # Phase 10: Model Selection
             selector = ModelSelector()
-            best_model, best_model_name, metrics = selector.select(
-                trained_models, X_train, X_test, y_train, y_test
+            best_model, best_model_name, metrics = selector.select_best_model(
+                trained_models
             )
 
-            # Phase 11: Model Evaluation & Saving
+            # Phase 11: Save model & metrics
             evaluator = ModelEvaluation()
             evaluator.save_model(best_model, best_model_name)
             evaluator.save_metrics(metrics)
@@ -65,5 +97,12 @@ class TrainingPipeline:
             logger.info("Training pipeline completed successfully")
 
         except Exception as e:
-            logger.error(" Training pipeline failed")
+            logger.error("Training pipeline failed")
             raise CustomException(e, sys)
+
+
+if __name__ == "__main__":
+    logger.info("Starting Training Pipeline execution")
+    pipeline = TrainingPipeline()
+    pipeline.run_pipeline()
+    logger.info("Training Pipeline execution finished")

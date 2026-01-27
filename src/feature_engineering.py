@@ -33,7 +33,6 @@ class FeatureEngineering:
             df['Remod_Age'] = df["Yr Sold"] - df["Year Remod/Add"]
 
             # total bathrooms
-                        # Total bathrooms
             df["Total_Bathrooms"] = (
                 df["Full Bath"]
                 + 0.5 * df["Half Bath"]

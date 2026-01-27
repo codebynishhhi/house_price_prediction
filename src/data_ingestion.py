@@ -11,8 +11,12 @@ from sklearn.model_selection import train_test_split
 from dataclasses import dataclass
 from src.utils.exception import CustomException
 from src.utils.logger import get_logger
+from pathlib import Path
 
 logger = get_logger(__name__)
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+RAW_DATA_PATH = PROJECT_ROOT/"data"/"raw"/"AmesHousing.csv"
 
 # configuration for data ingestion
 @dataclass
@@ -36,7 +40,7 @@ class DataIngestion:
             # read the raw data
             if data_path is None:
                 data_path = '../data/raw/AmesHousing.csv'
-            df = pd.read_csv(data_path)
+            df = pd.read_csv(RAW_DATA_PATH)
 
             # create the artifacts directory if not exists
             os.makedirs(os.path.dirname(self.ingestion_config.raw_data_path), exist_ok=True)
