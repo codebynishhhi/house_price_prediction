@@ -2,12 +2,12 @@ from pydantic import BaseModel, Field
 from typing import Optional
 
 class HouseInput(BaseModel):
-    # 🔴 REQUIRED (Top impact features)
+    # REQUIRED (Top impact features)
     Overall_Qual: int = Field(..., alias="Overall Qual")
     Gr_Liv_Area: int = Field(..., alias="Gr Liv Area")
     Neighborhood: str
 
-    # 🟡 OPTIONAL (auto-filled by adapter)
+    # OPTIONAL (auto-filled by adapter)
     Garage_Cars: Optional[int] = Field(None, alias="Garage Cars")
     Garage_Area: Optional[int] = Field(None, alias="Garage Area")
     Total_Bsmt_SF: Optional[int] = Field(None, alias="Total Bsmt SF")
