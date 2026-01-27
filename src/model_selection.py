@@ -70,9 +70,11 @@ class ModelSelector:
                 )
 
             return best_model_name, best_model, {
+                "best_model_name": best_model_name,
                 "best_test_r2": best_score,
-                "best_model": best_model_name
+                 "selection_criteria": "highest test R2 with low generalization gap"
             }
+
 
         except Exception as e:
             raise CustomException(e, sys)

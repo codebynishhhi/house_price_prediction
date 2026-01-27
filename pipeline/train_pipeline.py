@@ -13,6 +13,8 @@ from src.outlier_handling import OutlierHandler
 from src.model_training import ModelTrainer
 from src.model_selection import ModelSelector
 from src.model_evaluation import ModelEvaluation
+import joblib
+from sklearn.pipeline import Pipeline
 
 logger = get_logger(__name__)
 
@@ -39,8 +41,8 @@ class TrainingPipeline:
 
             # Phase 3: Feature Engineering (DATAFRAME ONLY)
             fe = FeatureEngineering()
-            X_train = fe.start_feature_engineering(X_train)
-            X_test = fe.start_feature_engineering(X_test)
+            X_train = fe.transform(X_train)
+            X_test = fe.transform(X_test)
 
             # Phase 4: Outlier Handling
             outlier = OutlierHandler()
@@ -49,10 +51,10 @@ class TrainingPipeline:
             numeric_cols = X_train.select_dtypes(include=["int64", "float64"]).columns.tolist()
             
             # learn outlier bounds(lower & upper) from training data
-            outlier.calculate_iqr_bounds(X_train, numeric_cols)
+            outlier.fit(X_train, numeric_cols)
 
-            X_train = outlier.transform_dataframe_using_bounds(X_train)
-            X_test = outlier.transform_dataframe_using_bounds(X_test)
+            X_train = outlier.transform(X_train)
+            X_test = outlier.transform(X_test)
 
             # Phase 5: Encoding (NEEDS COLUMN NAMES)
             encoder = DataEncoding()
@@ -85,11 +87,29 @@ class TrainingPipeline:
 
             # Phase 10: Model Selection
             selector = ModelSelector()
-            best_model, best_model_name, metrics = selector.select_best_model(
+            best_model_name, best_model, metrics = selector.select_best_model(
                 trained_models
             )
 
-            # Phase 11: Save model & metrics
+            # Phase 11:
+            # Creating and saving a full production pipeline
+            logger.info("Creating a full production pipeline")
+            full_pipeline = Pipeline(steps=[
+                ("feature_engineering", fe),
+                ("outlier_handler", outlier),
+                ("encoding", encoding_transformer),
+                ("imputation", preprocessor),
+                ("scaling", scaler_transformer),
+                ("model", best_model)  
+            ])
+
+            pipeline_path = "artifacts/model/full_pipeline.pkl"
+            joblib.dump(full_pipeline, pipeline_path)
+
+            logger.info(f"Best model is - {best_model}")
+            logger.info(f"Full pipeline saved at {pipeline_path}")
+            
+            # Phase 12: Save model & metrics
             evaluator = ModelEvaluation()
             evaluator.save_model(best_model, best_model_name)
             evaluator.save_metrics(metrics)

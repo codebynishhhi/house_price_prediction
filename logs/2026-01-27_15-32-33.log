@@ -1,0 +1,7 @@
+[2026-01-27 15:32:34,761] INFO - Starting Training Pipeline execution
+[2026-01-27 15:32:34,761] INFO - Training pipeline started
+[2026-01-27 15:32:34,761] INFO - Data Ingestion method starts
+[2026-01-27 15:32:34,795] INFO - Raw data saved
+[2026-01-27 15:32:34,830] INFO - Train and test data saved
+[2026-01-27 15:32:34,830] INFO - Data Ingestion method completed
+[2026-01-27 15:32:34,841] ERROR - Training pipeline failed

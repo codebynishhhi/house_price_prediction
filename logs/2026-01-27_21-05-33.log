@@ -1,0 +1,6 @@
+[2026-01-27 21:05:33,128] INFO - Loading full training saved pipeline
+[2026-01-27 21:05:33,912] INFO - Pipeline loaded successfully!
+[2026-01-27 21:05:33,912] INFO - Starting prediction
+[2026-01-27 21:05:33,912] INFO - Applying feature engineering
+[2026-01-27 21:05:33,913] INFO - Applying outlier capping
+[2026-01-27 21:05:33,929] INFO - Prediction completed successfully!
